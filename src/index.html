@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Cities</title>
+    <script type="text/javascript" src="listOfCities.js"></script>
+    <style>
+        :root {
+            --font-primary: 20px;
+        }
+
+        body {
+            font-family: Georgia, sans-serif;
+            font-size: var(--font-primary);
+            background-image: url("https://img.geliophoto.com/nsk2019w/000_nsk2019w.jpg");
+            background-size: 100%;
+        }
+
+        .buttonInput {
+            background-color: #2abb25;
+            font-size: var(--font-primary);
+            border-radius: 20px;
+            color: #fffdfd;
+        }
+
+        .buttonInput:hover {
+            opacity: 0.8;
+            cursor: pointer;
+        }
+
+        .buttonInput:active {
+            background-color: #4d8a4b;
+            scale: 0.9;
+        }
+
+        .textInput {
+            background-image: none;
+            background-color: rgba(255, 255, 255, 0);
+            text-align: center;
+            margin-top: 40px;
+        }
+
+        input {
+            font-size: var(--font-primary);
+            background: #c1b8b8;
+            border-radius: 5px;
+        }
+
+        .inputLetter {
+            text-align: center;
+            margin: 40px;
+        }
+
+        .inputElement, .numberPlayers {
+            font-family: Arial, sans-serif;
+            font-weight: bold;
+        }
+
+        .numberPlayers::before {
+            content: "😎";
+            margin-right: 5px;
+        }
+
+        .inputElement::before {
+            content: "➡";
+            margin-right: 5px;
+        }
+
+        .inputElement::after {
+            content: "⬅";
+            margin-left: 5px;
+        }
+
+        .players {
+            margin-top: 30px;
+            display: flex;
+            align-items: baseline;
+            background-color: rgba(151, 146, 146, 0);
+            justify-content: space-around;
+            flex-direction: row;
+            height: 440px;
+        }
+
+        .block {
+            background-color: #4d8a4b;
+            border: 1px solid black;
+            padding-top: 5px;
+            padding-bottom: 5px;
+            border-radius: 20px;
+            width: 30%;
+            height: 420px;
+            text-align: center;
+        }
+
+        .infoBlock {
+            background-color: #80f2f6;
+            border: 1px solid black;
+            padding-top: 5px;
+            border-radius: 20px;
+            width: 15%;
+            height: 200px;
+            text-align: center;
+            text-decoration: underline;
+        }
+
+        footer {
+            background-color: rgba(151, 146, 146, 0.7);
+            border-radius: 10px;
+            font-family: Arial, sans-serif;
+            margin-top: 50px;
+            font-style: italic;
+            font-weight: bold;
+            color: #022201;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+<div class="textInput">
+    <h1>Игра в города</h1>
+    <div class="inputLetter">
+        <p class="numberPlayers">Игрок 1</p>
+        <p>Назовите город России который начинается на букву:</p>
+        <p class="inputElement">любая буква</p>
+    </div>
+    <label for="textBox"><b>Введите название города:</b></label>
+    <input id="textBox" type="text" name="city" required>
+    <button class="buttonInput" id="buttonInput" type="submit">Ответить</button>
+    <button id="clearButton" style="border-radius: 10px">Очистить</button>
+</div>
+<div class="players">
+    <div class="block">
+        <p class="inputAchievementCountPlayer1"></p>
+        <p style="text-decoration: underline">Игрок 1</p>
+        <p class="player1Win" style="font-size: 50px"></p>
+    </div>
+    <!--    <div class="infoBlock">Информативный блок</div>-->
+    <div class="block">
+        <p class="inputAchievementCountPlayer2"></p>
+        <p style="text-decoration: underline">Игрок 2</p>
+        <p class="player2Win" style="font-size: 50px"></p>
+    </div>
+</div>
+<footer>
+    <div>&copy;2025 Игра Города</div>
+</footer>
+<script>
+    const arrCities = [];
+    const a = document.getElementById('textBox');
+    const inputElement = document.getElementsByClassName('inputElement');
+    const numberPlayer = document.getElementsByClassName('numberPlayers');
+    const achievementPlayer1 = document.getElementsByClassName('inputAchievementCountPlayer1');
+    const achievementPlayer2 = document.getElementsByClassName('inputAchievementCountPlayer2');
+    const player1Win = document.getElementsByClassName('player1Win');
+    const player2Win = document.getElementsByClassName('player2Win');
+    let copyCity;
+    let realCity;
+    let achievementPlayer1Count = "⭐";
+    let achievementPlayer2Count = "⭐";
+    let number = null;
+    let letter;
+
+    // если(слово заканчивается на мягкий знак то взять следующую букву)
+
+    function addCity() {
+        if (a.value === "") {
+            alert("Введите название города!");
+        } else {
+
+            for (const value of cities) {
+                if (value.toLowerCase() === a.value.toLowerCase()) {
+                    realCity = value;
+                    break;
+                }
+            }
+
+            for (const value of arrCities) {
+                if (value.toLowerCase() === a.value.toLowerCase()) {
+                    copyCity = value.charAt(0).toUpperCase() + value.slice(1);
+                    break;
+                }
+            }
+
+            function nextStarsNumbers() {
+                if (numberPlayer[0].innerHTML === "Игрок 1") {
+                    number = "Игрок 2";
+                    countStarsPlayer2();
+                } else {
+                    number = "Игрок 1"
+                    countStarsPlayer1();
+                }
+                numberPlayer[0].innerHTML = number;
+            }
+
+            function nextPlayerNumbers() {
+                if (numberPlayer[0].innerHTML === "Игрок 1") {
+                    number = "Игрок 2";
+                } else {
+                    number = "Игрок 1"
+                }
+                numberPlayer[0].innerHTML = number;
+            }
+
+            function countStarsPlayer1() {
+                if (achievementPlayer1[0].innerHTML === "") {
+                    achievementPlayer1[0].innerHTML = "⭐";
+                } else if (achievementPlayer1[0].innerHTML === "⭐") {
+                    achievementPlayer1[0].innerHTML += achievementPlayer1Count;
+                } else if (achievementPlayer1[0].innerHTML === "⭐⭐") {
+                    achievementPlayer1[0].innerHTML += achievementPlayer1Count;
+                    player1Win[0].innerHTML = "Выиграл!";
+                    a.setAttribute("disabled", "disabled");
+                }
+                a.value = "";
+            }
+
+            function countStarsPlayer2() {
+                if (achievementPlayer2[0].innerHTML === "") {
+                    achievementPlayer2[0].innerHTML = "⭐";
+                } else if (achievementPlayer2[0].innerHTML === "⭐") {
+                    achievementPlayer2[0].innerHTML += achievementPlayer2Count;
+                } else if (achievementPlayer2[0].innerHTML === "⭐⭐") {
+                    achievementPlayer2[0].innerHTML += achievementPlayer2Count;
+                    player2Win[0].innerHTML = "Выиграл!";
+                    a.setAttribute("disabled", "disabled");
+                }
+                a.value = "";
+            }
+
+            if (a.value.charAt(0).toUpperCase() + a.value.slice(1) === copyCity) {
+                alert("Город уже был назван!")
+                nextStarsNumbers();
+            } else if (realCity === undefined) {
+                alert("Такого города не существует!");
+                nextStarsNumbers();
+            } else if (a.value.charAt(0).toUpperCase() !== letter && inputElement[0].innerHTML !== "любая буква") {
+                alert("Назовите город на букву: " + inputElement.item(0).innerHTML);
+                nextStarsNumbers();
+            } else {
+                console.log("----------");
+                console.log(a.value.slice(-1));
+                console.log(a.value.slice(-2).charAt(0));
+                console.log("----------");
+                const newArr = arrCities.join(", ");
+                arrCities.push(a.value.charAt(0).toUpperCase() + a.value.slice(1));
+                alert("Вы назвали: " + a.value + ", такой город существует." + "\n" + "Названые города: " + newArr + ".");
+                if (a.value.slice(-1) === "ь" || a.value.slice(-1) === "й") {
+                    inputElement[0].innerHTML = a.value.slice(-2).charAt(0).toUpperCase();
+                    letter = a.value.slice(-2).charAt(0).toUpperCase();
+                } else {
+                    inputElement[0].innerHTML = a.value.slice(-1).toUpperCase();
+                    letter = a.value.slice(-1).toUpperCase();
+                }
+                nextPlayerNumbers();
+                a.value = "";
+            }
+        }
+    }
+
+    document.getElementById('textBox').addEventListener('keyup', function (e) {
+        if (e.code === 'Enter') {
+            addCity();
+        }
+    })
+
+    document.getElementById('buttonInput').onclick = function () {
+        addCity();
+    };
+    document.getElementById('clearButton').onclick = function () {
+        document.getElementById('textBox').value = "";
+    }
+</script>
+</body>
+</html>
