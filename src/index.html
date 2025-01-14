@@ -93,6 +93,17 @@
             width: 30%;
         }
 
+        .reload {
+            display:block;
+            height: 50px;
+            position: relative;
+            margin:0 auto;
+            background-color: #2abb25;
+            border-radius: 20px;
+            color: #fffdfd;
+            font-size: var(--font-primary);
+        }
+
         footer {
             background-color: rgba(151, 146, 146, 0.7);
             border-radius: 10px;
@@ -100,8 +111,8 @@
             font-family: Arial, sans-serif;
             font-style: italic;
             font-weight: bold;
-            text-align: center;
             margin-top: 50px;
+            text-align: center;
         }
     </style>
 </head>
@@ -130,6 +141,7 @@
         <p class="player2Win" style="font-size: 50px"></p>
     </div>
 </div>
+<div><button class="reload" onclick="location.reload()">Начать игру с начала</button></div>
 <footer>
     <div>&copy;2025 Игра Города</div>
 </footer>
