@@ -246,7 +246,7 @@
                 const newArr = arrCities.join(", ");
                 arrCities.push(a.value.charAt(0).toUpperCase() + a.value.slice(1));
                 alert("Вы назвали: " + a.value + ", такой город существует." + "\n" + "Названые города: " + newArr + ".");
-                if (a.value.slice(-1) === "ь" || a.value.slice(-1) === "й") {
+                if (a.value.slice(-1) === "ь" || a.value.slice(-1) === "й" || a.value.slice(-1) === "ы") {
                     inputElement[0].innerHTML = a.value.slice(-2).charAt(0).toUpperCase();
                     letter = a.value.slice(-2).charAt(0).toUpperCase();
                 } else {
