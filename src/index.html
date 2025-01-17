@@ -131,6 +131,16 @@
             top: 0;
             margin-right: 10px
         }
+
+        .timeToMove {
+            font-weight: bold;
+            font-family: Arial, sans-serif;
+        }
+
+        .timeToMove:after {
+            content: "⏱️";
+            margin-left: 2px;
+        }
     </style>
 </head>
 <body>
@@ -141,6 +151,7 @@
         <p class="numberPlayers">Игрок 1</p>
         <p>Назовите город России который начинается на букву:</p>
         <p class="inputElement">любая буква</p>
+        <p class="timeToMove">Время на ход: <span id="countdown">Начнестся после первого ответа</span></p>
     </div>
     <label for="textBox"><b>Введите название города:</b></label>
     <input id="textBox" type="text" name="city" required>
@@ -180,6 +191,9 @@
     let achievementPlayer2Count = "⭐";
     let number = null;
     let letter;
+    let interval;
+    let timeToMove = 5 * 60;
+    let countDownTime = document.getElementById('countdown');
 
     function checkTime(i) {
         if (i < 10) {
@@ -205,6 +219,29 @@
     timeBegan();
 
     function addCity() {
+        const startWatch = () => {
+            interval = setInterval(updateCount, 1000);
+
+            function updateCount() {
+                if (achievementPlayer1[0].innerHTML === "⭐⭐⭐") {
+                    timeToMove = 0;
+                }
+                if (achievementPlayer2[0].innerHTML === "⭐⭐⭐") {
+                    timeToMove = 0;
+                }
+                const minutes = Math.floor(timeToMove / 60);
+                let seconds = timeToMove % 60;
+                seconds = seconds < 10 ? '0' + seconds : seconds;
+                countDownTime.innerHTML = `${minutes}:${seconds}`;
+                timeToMove--;
+                if (timeToMove === 0) {
+                    nextStarsNumbers();
+                    timeToMove = 5 * 60;
+                }
+            }
+        }
+        startWatch();
+
         if (a.value === "") {
             alert("Введите название города!");
         } else {
@@ -279,10 +316,6 @@
                 alert("Назовите город на букву: " + inputElement.item(0).innerHTML);
                 nextStarsNumbers();
             } else {
-                console.log("----------");
-                console.log(a.value.slice(-1));
-                console.log(a.value.slice(-2).charAt(0));
-                console.log("----------");
                 const newArr = arrCities.join(", ");
                 arrCities.push(a.value.charAt(0).toUpperCase() + a.value.slice(1));
                 alert("Вы назвали: " + a.value + ", такой город существует." + "\n" + "Названые города: " + newArr + ".");
@@ -304,7 +337,6 @@
             addCity();
         }
     })
-
     document.getElementById('buttonInput').onclick = function () {
         addCity();
     };
