@@ -219,6 +219,12 @@
     timeBegan();
 
     function addCity() {
+        function myStopFunction() {
+            clearInterval(interval);
+        }
+
+        myStopFunction();
+
         const startWatch = () => {
             interval = setInterval(updateCount, 1000);
 
@@ -236,7 +242,6 @@
                 timeToMove--;
                 if (timeToMove === 0) {
                     nextStarsNumbers();
-                    timeToMove = 5 * 60;
                 }
             }
         }
@@ -269,6 +274,7 @@
                     countStarsPlayer1();
                 }
                 numberPlayer[0].innerHTML = number;
+                timeToMove = 5 * 60;
             }
 
             function nextPlayerNumbers() {
