@@ -94,10 +94,10 @@
         }
 
         .reload {
-            display:block;
-            height: 50px;
+            display: block;
+            height: 40px;
             position: relative;
-            margin:0 auto;
+            margin: 0 auto;
             background-color: #2abb25;
             border-radius: 20px;
             color: #fffdfd;
@@ -114,9 +114,27 @@
             margin-top: 50px;
             text-align: center;
         }
+
+        .player1Win, .player2Win {
+            font-size: 50px;
+        }
+
+        @media (max-width: 800px) {
+            .player1Win, .player2Win {
+                font-size: 20px;
+            }
+        }
+
+        #timeNow {
+            position: absolute;
+            right: 0;
+            top: 0;
+            margin-right: 10px
+        }
     </style>
 </head>
 <body>
+<div id="timeNow"></div>
 <div class="textInput">
     <h1>Игра в города</h1>
     <div class="inputLetter">
@@ -133,15 +151,17 @@
     <div class="block">
         <p class="inputAchievementCountPlayer1"></p>
         <p style="text-decoration: underline">Игрок 1</p>
-        <p class="player1Win" style="font-size: 50px"></p>
+        <p class="player1Win"></p>
     </div>
     <div class="block">
         <p class="inputAchievementCountPlayer2"></p>
         <p style="text-decoration: underline">Игрок 2</p>
-        <p class="player2Win" style="font-size: 50px"></p>
+        <p class="player2Win"></p>
     </div>
 </div>
-<div><button class="reload" onclick="location.reload()">Начать игру с начала</button></div>
+<div>
+    <button class="reload" onclick="location.reload()">Начать игру с начала</button>
+</div>
 <footer>
     <div>&copy;2025 Игра Города</div>
 </footer>
@@ -160,6 +180,29 @@
     let achievementPlayer2Count = "⭐";
     let number = null;
     let letter;
+
+    function checkTime(i) {
+        if (i < 10) {
+            i = "0" + i;
+        }
+        return i;
+    }
+
+    function timeBegan() {
+        const today = new Date();
+        let h = today.getHours();
+        let m = today.getMinutes();
+        let s = today.getSeconds();
+
+        m = checkTime(m);
+        s = checkTime(s);
+        document.getElementById('timeNow').innerHTML = h + ":" + m + ":" + s;
+        setTimeout(function () {
+            timeBegan()
+        }, 500);
+    }
+
+    timeBegan();
 
     function addCity() {
         if (a.value === "") {
