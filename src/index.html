@@ -339,8 +339,8 @@
         }
     }
 
-    document.getElementById('textBox').addEventListener('keyup', function (e) {
-        if (e.code === 'Enter') {
+    document.getElementById('textBox').addEventListener('keydown', function (e) {
+        if (e.key === 'Enter') {
             addCity();
         }
     })
